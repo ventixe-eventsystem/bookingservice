@@ -1,0 +1,51 @@
+﻿using Business.Interfaces;
+using Business.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+
+namespace BookingApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class BookingController(IBookingService bookingService) : ControllerBase
+{
+  private readonly IBookingService _bookingService = bookingService;
+
+  [HttpPost]
+  public async Task<IActionResult> CreateBooking([FromBody] Booking booking)
+  {
+    try
+    {
+      if (booking == null)
+        return BadRequest("Booking cannot be null");
+
+      var result = await _bookingService.CreateBookingAsync(booking);
+      if (!result)
+        return StatusCode(500, "Internal server error");
+
+      return Ok();
+    }
+    catch (Exception ex)
+    {
+      Debug.WriteLine($"Error creating booking: {ex.Message}");
+      return StatusCode(500, "Internal server error");
+    }
+  }
+
+  [HttpGet]
+  public async Task<IActionResult> GetAllBookings()
+  {
+    try
+    {
+      var bookings = await _bookingService.GetAllBookingsAsync();
+      if (bookings == null || !bookings.Any())
+        return NotFound("No bookings found");
+      return Ok(bookings);
+    }
+    catch (Exception ex)
+    {
+      Debug.WriteLine($"Error retrieving bookings: {ex.Message}");
+      return StatusCode(500, "Internal server error");
+    }
+  }
+}
