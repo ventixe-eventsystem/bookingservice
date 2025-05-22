@@ -16,4 +16,6 @@ public class BookingEntity
   public decimal? Amount { get; set; }
   public string EventId { get; set; } = null!;
   public int NumberOfTickets { get; set; } = 1;
+
+  public string? UserId { get; set; }
 }
