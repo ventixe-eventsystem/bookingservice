@@ -15,6 +15,7 @@ public class BookingService(IBookingRepository repository) : IBookingService
     {
       var bookingEntity = new BookingEntity
       {
+        UserId = booking.UserId,
         FirstName = booking.FirstName,
         LastName = booking.LastName,
         BookingDate = booking.BookingDate,
@@ -39,6 +40,7 @@ public class BookingService(IBookingRepository repository) : IBookingService
       return bookings.Select(b => new Booking
       {
         Id = b.Id,
+        UserId = b.UserId,
         FirstName = b.FirstName,
         LastName = b.LastName,
         BookingDate = b.BookingDate,

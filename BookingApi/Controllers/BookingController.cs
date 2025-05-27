@@ -48,4 +48,24 @@ public class BookingController(IBookingService bookingService) : ControllerBase
       return StatusCode(500, "Internal server error");
     }
   }
+
+  [HttpGet("{id}")]
+  public async Task<IActionResult> GetBookingById(string id)
+  {
+    if (string.IsNullOrEmpty(id))
+      return BadRequest("Booking ID cannot be null or empty");
+    try
+    {
+      var allBookings = await _bookingService.GetAllBookingsAsync();
+      var bookings = allBookings.Where(b => b.UserId == id);
+      if (bookings == null)
+        return NotFound($"Bookings with ID {id} not found");
+      return Ok(bookings);
+    }
+    catch (Exception ex)
+    {
+      Debug.WriteLine($"Error retrieving booking by ID: {ex.Message}");
+      return StatusCode(500, "Internal server error");
+    }
+  }
 }

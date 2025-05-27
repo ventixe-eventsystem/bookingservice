@@ -10,4 +10,6 @@ public class Booking
   public decimal? Amount { get; set; }
   public string EventId { get; set; } = null!;
   public int NumberOfTickets { get; set; }
+
+  public string? UserId { get; set; }
 }
