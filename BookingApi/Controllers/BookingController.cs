@@ -1,10 +1,12 @@
 ﻿using Business.Interfaces;
 using Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace BookingApi.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class BookingController(IBookingService bookingService) : ControllerBase
